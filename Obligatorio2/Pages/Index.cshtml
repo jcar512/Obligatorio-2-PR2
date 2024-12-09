@@ -1,0 +1,51 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+
+    @if(Model.Hotel != null)
+        {
+        <div class="container mb-5 py-3 px-4 card shadow-lg  border-light-subtle" style="border-radius: 1rem;">
+        <h1 class="display-4">@Model.Hotel!.NombreHotel</h1>
+        <p>Ciudad: @Model.Hotel.Ciudad</p>
+        <p>Direccion: @Model.Hotel.Direccion</p>
+        <p>Categoría: @Model.Hotel.Categoria estrellas</p>
+        </div>
+        
+        <div class="container py-3 px-4 card shadow-lg  border-light-subtle" style="border-radius: 1rem;">
+            <h2 class="display-6">Servicios ofrecidos</h2>
+            <ul>
+                @foreach(var servicio in Model.Hotel.Servicios!)
+                    {
+                        if(!servicio.EsAdicional)
+                        {
+                        <li>
+                            <p>@servicio.NombreServicio</p>
+                        </li>
+                        }                       
+                    }
+            </ul>
+            <h2 class="display-6">Servicios adicionales (no incluídos con la reserva)</h2>
+            <ul>
+                @foreach (var servicio in Model.Hotel.Servicios)
+                    {
+                    if (servicio.EsAdicional)
+                        {
+                        <li>
+                            <p>@servicio.NombreServicio</p>
+                        </li>
+                        }
+                    }
+            </ul>
+        </div>
+        }
+    else
+        {
+        <p class="text-danger">
+            @Model.ErrorMessage
+        </p>
+        }
+</div>

@@ -1,0 +1,341 @@
+﻿@page "NuevoUsuario"
+@model Obligatorio2.Pages.NuevoUsuarioModel
+@{
+    ViewData["Title"] = "Nuevo Usuario";
+}
+@* <div class="container">
+<section class="text-center">
+      <div class="card mx-4 mx-md-5 shadow-5-strong bg-body-tertiary">
+        <div class="card-body py-5 px-md-5">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-8">
+              <h2 class="fw-bold mb-5">Registrarse</h2>
+              <form method="post">
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                      <input asp-for="Nombre" type="text" id="name" class="form-control" />
+                      <label asp-for="Nombre" class="form-label" for="name">Nombre</label>
+                      <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                      <input asp-for="Apellido" type="text" id="surname" class="form-control" />
+                      <label asp-for="Apellido" class="form-label" for="surname">Apellido</label>
+                      <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- DatePicker -->
+                <div class="row form-outline mb-4">
+                  <input id="birthDate" class="dateSelector border
+                  border-light-subtle rounded" asp-for="FechaNacimiento"
+                  min="@Model.EdadMaxima.ToString("yyyy-MM-dd")"
+                  max="@Model.EdadMinima.ToString("yyyy-MM-dd")"
+                  class="form-control" type="date" />
+                  <label
+                    asp-for="FechaNacimiento"
+                    class="form-label"
+                    for="birthDate"
+                    >Fecha de nacimiento</label>
+                  <span
+                    asp-validation-for="FechaNacimiento"
+                    class="text-danger"
+                  ></span>
+                </div>
+              
+
+            <!-- Documento -->
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                        <select 
+                            asp-for="TipoDocumento"
+                            id="documentType"
+                            class="form-select"
+                            aria-label="Default select example">
+                            <option selected disabled>
+                            Seleccione el tipo de documento
+                            </option>
+                            <!-- For Each de cada pais de la base de datos -->
+                            <option value="CI">CI</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                        </select>
+                        <label asp-for="TipoDocumento" class="form-label" for="documentType">Tipo de documento</label>
+                        <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline">
+                        <input asp-for="NumeroDocumento" type="text" id="documentNumber" class="form-control" />
+                        <label asp-for="NumeroDocumento" class="form-label" for="documentNumber">N° de documento</label>
+                        <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+           
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <select
+                    asp-for="PaisId"
+                    id="country"
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>
+                      Seleccione su país de origen
+                    </option>
+                    <!-- For Each de cada pais de la base de datos -->
+                    @foreach (var pais in Model.Paises)
+                      {
+                       <option value="@pais.PaisId">@pais.NombrePais</option>                
+                      }                     
+                  </select>
+                  <label asp-for="PaisId" class="form-label" for="country">País</label>
+                  <span asp-validation-for="PaisId" class="text-danger"></span>
+                </div>
+
+                <!-- Phone input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input
+                    asp-for="Telefono"
+                    type="tel"
+                    id="phoneNumber"
+                    maxlength="9"
+                    pattern="[0-9]*"
+                    inputmode="numeric"
+                    class="form-control"
+                  />
+                  <label asp-for="Telefono" class="form-label" for="phoneNumber">Teléfono (Formato ej: 099888777)</label>
+                  <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+
+                <!-- Email input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input asp-for="Email"type="email" id="email" class="form-control" />
+                                <label asp-for="Email" class="form-label" for="email">Email <abbr 
+                                    title="Formato: ejemplo@gmail.com">*</abbr></label>
+                  <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Password input -->
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <input
+                        asp-for="Contrasenia"
+                        type="password"
+                        id="password"
+                        class="form-control"
+                      />
+                      <label asp-for="Contrasenia" class="form-label" for="password">Contraseña <abbr 
+                          title="Debe incluir al menos un número, una letra mayúscula, una letra minúscula y tener al menos ocho caracteres.">*</abbr></label>
+                      <span asp-validation-for="Contrasenia" class="text-danger"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div data-mdb-input-init class="form-outline mb-4">
+                      <input
+                          asp-for="ConfirmarContrasenia"
+                        type="password"
+                        id="confirmPassword"
+                        class="form-control"
+                      />
+                      <label asp-for="ConfirmarContrasenia" class="form-label" for="confirmPassword"
+                        >Confirmar Contraseña</label>
+                      <span asp-validation-for="ConfirmarContrasenia" class="text-danger"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Submit button -->
+                <button
+                  type="submit"
+                  onclick="return confirm('¿Confirmar registro?')"
+                  data-mdb-button-init
+                  data-mdb-ripple-init
+                  class="btn btn-primary btn-block mb-4"
+                >
+                  Enviar
+                </button>
+                <p class="text-danger">@Model.ErrorMessage</p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div> *@
+
+<div class="container">
+    <section >
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col col-xl-10">
+                    <div class="card shadow-lg" style="border-radius: 1rem;">
+                        <div class="row g-0">
+                           
+                                <div class="card-body p-4 p-lg-5 text-black">
+
+                                    <h2 class="fw-bold mb-5">Registrarse</h2>
+                                    <form method="post">
+                                        <!-- 2 column grid layout with text inputs for the first and last names -->
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input asp-for="Nombre" type="text" id="name" class="form-control" />
+                                                    <label asp-for="Nombre" class="form-label" for="name">Nombre</label>
+                                                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input asp-for="Apellido" type="text" id="surname" class="form-control" />
+                                                    <label asp-for="Apellido" class="form-label" for="surname">Apellido</label>
+                                                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- DatePicker -->
+                                        <div class=" form-outline mb-4">
+                                            <label asp-for="FechaNacimiento"
+                                                   class="form-label"
+                                                   for="birthDate">Fecha de nacimiento</label>
+                                            <input id="birthDate" class="dateSelector border
+                  border-light-subtle rounded" asp-for="FechaNacimiento"
+                                                   min="@Model.EdadMaxima.ToString("yyyy-MM-dd")"
+                                                   max="@Model.EdadMinima.ToString("yyyy-MM-dd")"
+                                                   class="form-control" type="date" />
+                                            <span asp-validation-for="FechaNacimiento"
+                                                  class="text-danger"></span>
+                                        </div>
+
+
+                                        <!-- Documento -->
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <select asp-for="TipoDocumento"
+                                                            id="documentType"
+                                                            class="form-select"
+                                                            aria-label="Default select example">
+                                                        <option selected disabled>
+                                                            Seleccione el tipo de documento
+                                                        </option>
+                                                        <!-- For Each de cada pais de la base de datos -->
+                                                        <option value="CI">CI</option>
+                                                        <option value="Pasaporte">Pasaporte</option>
+                                                    </select>
+                                                    <label asp-for="TipoDocumento" class="form-label" for="documentType">Tipo de documento</label>
+                                                    <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <input asp-for="NumeroDocumento" type="text" id="documentNumber" class="form-control" />
+                                                    <label asp-for="NumeroDocumento" class="form-label" for="documentNumber">N° de documento</label>
+                                                    <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div data-mdb-input-init class="form-outline mb-4">
+                                            <select asp-for="PaisId"
+                                                    id="country"
+                                                    class="form-select"
+                                                    aria-label="Default select example">
+                                                <option selected disabled>
+                                                    Seleccione su país de origen
+                                                </option>
+                                                <!-- For Each de cada pais de la base de datos -->
+                                                @foreach (var pais in Model.Paises)
+                                                    {
+                                                    <option value="@pais.PaisId">@pais.NombrePais</option>
+                                                    }
+                                            </select>
+                                            <label asp-for="PaisId" class="form-label" for="country">País</label>
+                                            <span asp-validation-for="PaisId" class="text-danger"></span>
+                                        </div>
+
+                                        <!-- Phone input -->
+                                        <div data-mdb-input-init class="form-outline mb-4">
+                                            <input asp-for="Telefono"
+                                                   type="tel"
+                                                   id="phoneNumber"
+                                                   maxlength="9"
+                                                   pattern="[0-9]*"
+                                                   inputmode="numeric"
+                                                   class="form-control" />
+                                            <label asp-for="Telefono" class="form-label" for="phoneNumber">Teléfono (Formato ej: 099888777)</label>
+                                            <span asp-validation-for="Telefono" class="text-danger"></span>
+                                        </div>
+
+                                        <!-- Email input -->
+                                        <div data-mdb-input-init class="form-outline mb-4">
+                                            <input asp-for="Email" type="email" id="email" class="form-control" />
+                                            <label asp-for="Email" class="form-label" for="email">
+                                                Email <abbr title="Formato: ejemplo@gmail.com">*</abbr>
+                                            </label>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+
+                                        <!-- Password input -->
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div data-mdb-input-init class="form-outline mb-4">
+                                                    <input asp-for="Contrasenia"
+                                                           type="password"
+                                                           id="password"
+                                                           class="form-control" />
+                                                    <label asp-for="Contrasenia" class="form-label" for="password">
+                                                        Contraseña <abbr title="Debe incluir al menos un número, una letra mayúscula, una letra minúscula y tener al menos ocho caracteres.">*</abbr>
+                                                    </label>
+                                                    <span asp-validation-for="Contrasenia" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div data-mdb-input-init class="form-outline mb-4">
+                                                    <input asp-for="ConfirmarContrasenia"
+                                                           type="password"
+                                                           id="confirmPassword"
+                                                           class="form-control" />
+                                                    <label asp-for="ConfirmarContrasenia" class="form-label" for="confirmPassword">Confirmar Contraseña</label>
+                                                    <span asp-validation-for="ConfirmarContrasenia" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit button -->
+                                        <button type="submit"
+                                                onclick="return confirm('¿Confirmar registro?')"
+                                                data-mdb-button-init
+                                                data-mdb-ripple-init
+                                                class="btn btn-dark btn-lg btn-block">
+                                            Enviar
+                                        </button>
+                                        <p class="text-danger">@Model.ErrorMessage</p>
+                                    </form>
+
+                                </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script>
+  const phoneInput = document.querySelector('#phoneNumber');
+
+  phoneInput.addEventListener('input', function () {
+    phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
+  });
+</script>

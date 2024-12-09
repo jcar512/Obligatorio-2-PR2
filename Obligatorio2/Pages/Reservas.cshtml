@@ -1,0 +1,95 @@
+﻿@page "/Reservas"
+@model Obligatorio2.Pages.ReservasModel
+@{ 
+    ViewData["Title"] = "Reservas";
+}
+<div class="container">
+    <div class="text-center">  
+
+        @if(Model.Reservas.Any())
+            {
+            var pagos = Model.Pagos;
+
+            foreach (var reserva in Model.Reservas)
+                {
+
+                var pago = pagos.First(pago => pago.ReservaId == reserva.ReservaId);
+
+                <div class="container shadow-lg" style="border-radius: 1rem;">
+                    <!-- Header Row -->
+                    <div class="row bg-black text-white py-3 font-weight-bold" style="border-top-left-radius: 1rem; border-top-right-radius: 1rem;">
+                        <div class="col text-center">Id Reserva</div>
+                        <div class="col text-center">Fecha de inicio</div>
+                        <div class="col text-center">Fecha de finalización</div>
+                        <div class="col text-center">Fecha de la reserva</div>
+                        <div class="col text-center">Número de habitación</div>
+                        <div class="col text-center">Monto</div>
+                        <div class="col text-center">Editar Reserva</div>
+                        <div class="col text-center">Eliminar Reserva</div>
+                    </div>
+
+                    <!-- Data Row -->
+                    
+                        <div class="row py-3 border-bottom">
+                            <div class="col text-center">@reserva.ReservaId</div>
+                            <div class="col text-center">@reserva.FechaInicio.ToString("dd/MM/yyyy")</div>
+                            <div class="col text-center">@reserva.FechaFin.ToString("dd/MM/yyyy")</div>
+                            <div class="col text-center">@reserva.FechaReserva.ToString("dd/MM/yyyy")</div>
+                            <div class="col text-center">@reserva.HabitacionId</div>
+                            <div class="col text-center">$@pago.MontoAbonado</div>
+
+                            <div class="col text-center">
+                                <form method="get">
+                                <input type="hidden" name="reservaId" value="@reserva.ReservaId" />
+                                <button asp-route-id="@reserva.ReservaId" asp-page="EditarReserva" class="btn btn-success">Editar</button>
+                                </form>
+                            </div>
+
+                            <div class="col text-center">
+                                <form method="post">
+                                <input type="hidden" name="reservaId" value="@reserva.ReservaId" />
+                                <button asp-page-handler="Delete"  
+                                onclick="return confirm('¿Seguro que desea eliminar la reserva?')"
+                                class="btn btn-danger">
+                                    Eliminar
+                                </button>
+                                </form>
+                            </div>
+                        </div>
+                  
+                </div>             
+                }
+            }
+        else if (Model.Reservas.Count() == 0)
+            {
+            <div class="container">
+                <p>No se encontró ninguna reserva.</p>
+            </div>
+            }
+        else
+            {
+            <div class="container" id="loadingMessage">
+                <!-- Header Row -->
+                <div class="row bg-black text-white py-2 font-weight-bold">
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                </div>
+
+                <!-- Data Row -->
+                <div class="row py-2 border-bottom">
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                    <div class="col text-center"><p class="placeholder-glow"><span class="placeholder col-12"></span></p></div>
+                </div>
+            </div>
+            }
+    </div>
+</div>
+

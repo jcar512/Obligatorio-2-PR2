@@ -1,0 +1,60 @@
+﻿@page "Estadisticas"
+@model Obligatorio2.Pages.EstadisticasModel
+@{
+    ViewData["Title"] = "Estadisticas";
+}
+
+ <div class="container">   
+
+    <div class="container mb-3 py-3 px-4 card shadow-lg border-light-subtle"
+         style="border-radius: 1rem">
+        <div>
+            <h2>Usuario con más reservas</h2>
+            <p>@Model.Usuario!.Nombre @Model.Usuario!.Apellido</p>
+            <p>Reservas totales: <span>@Model.CantidadDeReservasMasAlta</span></p>
+        </div>
+    </div>
+
+    <div class="container mb-3 py-3 px-4 card shadow-lg border-light-subtle"
+         style="border-radius: 1rem">
+        <div>
+            <h2>País de origen más común entre los visitantes</h2>
+            <p>País: <span>@Model.Pais!.NombrePais</span></p>
+        </div>
+    </div>
+
+    <div class="container mb-3 py-3 px-4 card shadow-lg border-light-subtle"
+         style="border-radius: 1rem">
+        <div>
+            <h2>Ganancias totales generadas</h2>
+            <p>Ganancias: $<span>@Model.GananciasTotales</span></p>
+        </div>
+    </div>
+
+    <div class="container mb-3 py-3 px-4 card shadow-lg border-light-subtle"
+         style="border-radius: 1rem">
+        <div>
+            <h2>Promedio de edad de los usuarios</h2>
+            <p>Promedio: <span>@Model.PromedioDeEdadUsuarios</span></p>
+        </div>
+    </div>
+
+    <div class="container mb-3 py-3 px-4 card shadow-lg border-light-subtle"
+         style="border-radius: 1rem">
+        <div>
+            <h2>Habitación más reservada</h2>
+            <p>Habitación N°<span>@Model.NumerohabitacionMasReservada</span></p>
+        </div>
+    </div>
+   
+
+    <div class="container mb-3 py-3 px-4 card shadow-lg border-light-subtle"
+         style="border-radius: 1rem">
+        <div>
+            <h2>Promedio del largo de estadía en días</h2>
+            <p>Cantidad de días: <span>@Model.PromedioDeEstadiaUsuarios</span></p>
+        </div>
+    </div>
+
+
+ </div>

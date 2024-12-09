@@ -1,0 +1,156 @@
+﻿@page "/NuevaReserva"
+@model Obligatorio2.Pages.NuevaReservaModel
+@{
+    ViewData["Title"] = "Nueva Reserva";
+}
+<div class="container">
+      <h2 class="text-center">Nueva Reserva</h2>
+      <div class="border rounded border-shadow-xl p-3">
+        <form method="post">
+          <div class="mb-4">
+            <label asp-for="HabitacionId">Número de habitación:</label>
+            <select
+              asp-for="HabitacionId"                      
+              id="habitacionSelect"
+              class="form-select"
+              aria-label="Selector habitaciones"  
+            >
+              <option disable selected>Seleccionar habitación</option>
+              <!--Hacer foreach con todas las HabitacionId de Habitaciones y que genere cada opcion con el valor del id respectivo-->
+              @foreach (var habitacion in Model.Habitaciones) {
+              <option
+                value="@habitacion.HabitacionId"
+                data-tipo="@habitacion.Tipo"
+                data-precio="@habitacion.PrecioDiario"
+                data-capacidad="@habitacion.Capacidad"
+              >
+                Habitación @habitacion.HabitacionId
+              </option>
+              }
+            </select>
+          </div>
+          
+          <div>
+              <p>
+                Tipo de habitación:
+                <span id="tipoHabitacion">Seleccione una habitación</span>
+              </p>
+              <p>Tarifa diaria: $<span id="precioHabitacion">00.00</span></p>
+              <p>
+                Capacidad:
+                <span id="capacidadHabitacion">Seleccione una habitación</span>
+              </p>
+          </div>
+
+        
+        <div class="mb-3">
+        <label asp-for="FechaInicio">Fecha de inicio</label>
+        <input id="fechaInicio" class="dateSelector" asp-for="FechaInicio"
+        min="@Model.FechaReserva.ToString("yyyy-MM-dd")"
+        max="@Model.FechaReservaMaxima.ToString("yyyy-MM-dd")"
+        class="form-control" type="date" />
+        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+        </div>
+         
+        <div class="mb-3">
+        <label asp-for="FechaFin">Fecha de finalización</label>
+        <input id="fechaFin" class="dateSelector" asp-for="FechaFin"
+        min="@Model.FechaReserva.ToString("yyyy-MM-dd")"
+        max="@Model.FechaReservaMaxima.ToString("yyyy-MM-dd")"
+        class="form-control" type="date" />
+        <span asp-validation-for="FechaFin" class="text-danger"></span>
+        </div>
+         
+          
+         
+
+          <div>   
+            <label asp-for="MetodoPago">Método de pago:</label>
+            <select
+                asp-for="MetodoPago"
+                id="metodoPagoSelect"
+                class="form-select"
+                aria-label="Selector metodo pago"                
+            >
+                <option disable selected>Seleccione un método de pago</option>              
+                <option
+                value="Tarjeta de crédito/débito"               
+                >
+                Tarjeta de crédito/débito
+                </option>
+                <option
+                value="Para pagar durante check-in"               
+                >
+                Para pagar durante check-in
+                </option>
+            </select>
+
+            <p class="mt-2">Monto total a pagar: $<span id="montoTotal">00.00</span></p>
+          </div>
+
+          <p class="text-danger">@Model.ErrorMessage</p>           
+
+           
+         <button type="submit" class="btn btn-primary btn-md btn-block" onclick="return confirm('¿Confirmar reserva?')">
+           Submit
+         </button>                                                                
+        </form>
+      </div>
+    </div>
+
+
+
+
+
+<script>
+    function updateTipoHabitacion() {
+        const select = document.getElementById('habitacionSelect');
+        const selectedOption = select.options[select.selectedIndex];
+        
+        const tipoHabitacion = selectedOption.getAttribute('data-tipo') || 'Seleccione una habitación';
+        const precioHabitacion = selectedOption.getAttribute('data-precio') || '00.00';      
+        const capacidadHabitacion = selectedOption.getAttribute('data-capacidad') == null 
+        ? 'Seleccione una habitación'
+        : selectedOption.getAttribute('data-capacidad') + ' Personas';
+
+        
+        document.getElementById('tipoHabitacion').textContent = tipoHabitacion;
+        document.getElementById('precioHabitacion').textContent = precioHabitacion;
+        document.getElementById('capacidadHabitacion').textContent = capacidadHabitacion;
+        }
+
+    function updateMontoTotal() {
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+        const habitacionSelect = document.getElementById('habitacionSelect');
+        const selectedOption = habitacionSelect.options[habitacionSelect.selectedIndex];
+        const precioDiario = parseFloat(selectedOption.getAttribute('data-precio')) || 0;
+
+        if (fechaInicio && fechaFin) {
+            const startDate = new Date(fechaInicio);
+            const endDate = new Date(fechaFin);
+
+            // Normalizar fechas para ignorar el tiempo y calcular diferencia en dias
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(0, 0, 0, 0);
+
+            const diferenciaEnDias = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+            if (diferenciaEnDias > 0) {                
+                const montoTotal = diferenciaEnDias * precioDiario;
+               
+                document.getElementById('montoTotal').textContent = montoTotal.toFixed(2);
+            } else {
+                document.getElementById('montoTotal').textContent = '00.00';
+            }
+        } else {
+            document.getElementById('montoTotal').textContent = '00.00';
+        }
+    }
+    
+    document.getElementById('fechaInicio').addEventListener('change', updateMontoTotal);
+    document.getElementById('fechaFin').addEventListener('change', updateMontoTotal);
+    document.getElementById('habitacionSelect').addEventListener('change', updateTipoHabitacion);
+    document.getElementById('habitacionSelect').addEventListener('change', updateMontoTotal);
+    document.getElementById('metodoPagoSelect').addEventListener('change', updateMontoTotal);
+</script>
