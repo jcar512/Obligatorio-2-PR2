@@ -1,5 +1,3 @@
-
-
 insert into Paises(NombrePais)
 values
 ('Afghanistan'),
@@ -277,4 +275,3 @@ values
 ('2024/05/15', 4000, 'Tarjeta de crédito/débito', 4),
 ('2024/12/05', 4350, 'Tarjeta de crédito/débito', 5),
 ('2024/04/03', 1800, 'Para pagar durante check-in', 6);
-
